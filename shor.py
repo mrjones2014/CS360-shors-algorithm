@@ -155,7 +155,7 @@ if __name__ == "__main__":
                 int(1. * N / (f1 * f2)) * f1 * f2 == N):
             f1, f2 = f1*f2, int(N/(f1*f2))
         if f1 * f2 == N and f1 > 1 and f2 > 1:
-            print("\n\n\t\033[92mFactors found :-) : {} * {} = {}\033[0m"
+            print("\n\n\t\033[92mFactors found: {} * {} = {}\033[0m"
                   .format(f1, f2, N))
         else:
             print("\n\n\t\033[91mBad luck: Found {} and {}\033[0m".format(f1,
