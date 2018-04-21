@@ -65,7 +65,7 @@ class QuantumPrograms:
             return self.factorize_N(N)
         factor2 = N/factor1
         return [int(factor1), int(factor2)]
-    g
+    
     def find_period(self, a, N):
         """
         Find the period of the modular exponentiation function, 
