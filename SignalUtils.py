@@ -18,5 +18,5 @@ def tryExecuteWithTimeout(func, timeout, failMessage):
     signal.alarm(timeout)
     try:
         func()
-    except Exception as ex:
+    except:
         print(f"{bcolors.FAIL}{failMessage}{bcolors.ENDC}")
