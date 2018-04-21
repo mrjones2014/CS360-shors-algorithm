@@ -1,19 +1,14 @@
 #!/usr/bin/env python3
 
 import sys
-from halo import Halo
-import ArgumentParser
 import QuantumCircuits
 import ExperimentUtils
 import SignalUtils
+import PrintUtils
 import random
 
-
-if __name__ == "__main__":
-    experiment = None
-    with Halo(text="Initializing quantum experiment...", spinner="dots"):
-        args = ArgumentParser.parseArgs()
-        experiment = ExperimentUtils.setup_experiment(args)
+def run(args):
+    experiment = ExperimentUtils.setup_experiment(args)
     program = experiment.qconf.program
     timeout = experiment.qconf.timeout
     if program == "find_period":
@@ -25,15 +20,18 @@ if __name__ == "__main__":
             a = int(a)
         def run_expr():
             r = experiment.find_period(a, N)
-            print(f"Found period r={r} for a={a} and N={N}.")
+            PrintUtils.printSuccess(f"Found period r={r} for a={a} and N={N}.")
         SignalUtils.tryExecuteWithTimeout(run_expr, timeout, f"Failed to find period within timeout: {timeout} seconds.")
-        sys.exit()
+        return
     elif program == "factorize_N":
         N = int(input("Enter a value N to factorize:\nN = "))
         def run_expr():
             factors = experiment.factorize_N(N)
-            print(f"Found factors: {factors[0]} X {factors[1]} = {N}")
+            PrintUtils.printSuccess(f"Found factors: {factors[0]} X {factors[1]} = {N}")
         SignalUtils.tryExecuteWithTimeout(run_expr, timeout, f"Failed to factorize {N} within timeout: {timeout} seconds.")
-        sys.exit()
+        return
     else: 
-        print(f"FATAL: Failed to find program '{program}'")
+        PrintUtils.printErr(f"FATAL: Failed to find program '{program}'!")    
+
+if __name__ == "__main__":
+    run(None)

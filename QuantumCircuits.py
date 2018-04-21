@@ -4,6 +4,7 @@ from qiskit import QuantumRegister
 from qiskit import ClassicalRegister
 from qiskit import Result
 from halo import Halo
+import PrintUtils
 import QConfig
 import random
 import math
@@ -49,19 +50,20 @@ class QuantumPrograms:
             return [2, int(N/2)]
         # Step 2: choose random value for 'a' between 2..(N-1)
         a = random.randint(2, N-1)
-        print(f"Selected random value a={a} to find period.")
+        PrintUtils.printInfo(f"Selected random value a={a} to find period.")
         # Step 3: determine if common period exists
         t = self.gcd(N, a)
         if t > 1:
-            print(f"Found common period between N={N} and a={a}")
+            PrintUtils.printInfo(f"Found common period between N={N} and a={a}")
             return [t, int(N/t)]
         # Step 4: t=1, thus, N and a do not share common period. Find period using Shor's method.
         r = None
-        with Halo(text="Using Shor's method to find period...", spinner="dots"):
+        PrintUtils.printInfo("Using Shor's method to find period.")
+        with Halo(text="Working...", spinner="dots"):
             r = self.find_period(a, N)
         factor1 = self.gcd((a**(r/2))+1, N)
         if factor1 % N == 0:
-            print("Chose unlucky 'a' value, trying again with new 'a' value...")
+            PrintUtils.printWarning("Chose unlucky 'a' value, trying again with new 'a' value...")
             return self.factorize_N(N)
         factor2 = N/factor1
         return [int(factor1), int(factor2)]
