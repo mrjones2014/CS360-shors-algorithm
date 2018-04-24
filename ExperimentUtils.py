@@ -92,7 +92,7 @@ def setup_experiment(args):
         
         # set timeout default value
         if args.timeout is None:
-            timeout = 180 # 3 minutes
+            timeout = 120
         else:
             timeout = int(args.timeout)
 

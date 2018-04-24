@@ -4,6 +4,7 @@ from qiskit import QuantumRegister
 from qiskit import ClassicalRegister
 from pyspin.spin import make_spin, Default
 from IPython.display import clear_output
+from math import sqrt; from itertools import count, islice
 from qiskit import Result
 import PrintUtils
 import QConfig
@@ -43,6 +44,9 @@ class QuantumPrograms:
         while b != 0:
             (a, b) = (b, a % b)
         return a
+    
+    def isPrime(self, n):
+        return n > 1 and all(n%i for i in islice(count(2), int(sqrt(n)-1)))
 
     def factorize_N(self, N, numRetries=0):
         """Factorize N using Shor's algorithm."""
@@ -69,13 +73,14 @@ class QuantumPrograms:
             PrintUtils.printSuccess(f"Took {numRetries + 1} guesses for 'a' value.             ")
             return [t, int(N/t)]
         # Step 4: t=1, thus, N and a do not share common period. Find period using Shor's method.
-        r = None
         PrintUtils.printInfo("Using Shor's method to find period...")
         r = self.find_period(a, N)
         factor1 = self.gcd((a**(r/2))+1, N)
-        if factor1 % N == 0 or factor1 == 1 or factor1 == N:
+        if factor1 % N == 0 or factor1 == 1 or factor1 == N or not(self.isPrime(factor1)):
             return self.factorize_N(N, numRetries + 1)
         factor2 = N/factor1
+        if not self.isPrime(factor2):
+            return self.factorize_N(N, numRetries + 1)
         PrintUtils.printSuccess(f"Took {numRetries + 1} guesses for 'a' value.             ")
         return [int(factor1), int(factor2)]
     

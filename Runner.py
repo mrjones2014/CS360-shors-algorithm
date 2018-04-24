@@ -11,7 +11,13 @@ def run(args):
     program = experiment.qconf.program.strip()
     timeout = experiment.qconf.timeout
     if program == "exit":
-        sys.exit()
+        try:
+            sys.exit()
+        except:
+            try:
+                quit()
+            except:
+                return
     elif program == "find_period":
         N = int(input("Enter a value for N:\nN = "))
         a = input("Enter a value for a (or type 'rand' for random value between 2..N-1):\na = ")
