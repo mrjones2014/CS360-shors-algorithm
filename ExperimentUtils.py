@@ -2,14 +2,15 @@ from QuantumCircuits import QuantumPrograms
 from qiskit import QuantumProgram
 from QConfig import QConfig
 import PrintUtils
-from halo import Halo
 import subprocess
 import os
 
 def print_available_programs(programs):
     PrintUtils.printHeader("Available programs:")
+    i = 1
     for progname in programs.keys():
-        PrintUtils.printInfo(f"  {progname}: {programs[progname]}")
+        PrintUtils.printInfo(f"  {i}. {progname}: {programs[progname]}")
+        i += 1
 
 def getParams():
     programs = QuantumPrograms.PROGRAMS
@@ -20,14 +21,28 @@ def getParams():
     program = None
 
     engine = QuantumProgram()
+
+    def tryParseInt(value):
+        try:
+            return int(value)
+        except:
+            return None
     
     print_available_programs(programs)
-    program = input("Run which program?\n> ")
-    while program not in programs:
-        PrintUtils.printErr(f"Invalid program '{program}'")
+    program = input("Select a program to run, or type 'exit' to quit.\n> ").strip()
+    progNum = tryParseInt(program)
+    while program not in programs and program != "exit":
+        if progNum is not None:
+            if progNum > len(programs):
+                PrintUtils.printErr(f"Invalid program '{progNum}'")
+            else:
+                program = list(programs.keys())[progNum - 1]
+                break
+        else:
+            PrintUtils.printErr(f"Invalid program '{program}'")
         print_available_programs(programs)
-        program = input("Run which program?\n> ")
-    
+        program = input("Run which program?\n> ").strip()
+        progNum = tryParseInt(program)
     return QuantumPrograms(engine, QConfig(backend, shots, timeout, program))
 
 def setup_experiment(args):
@@ -77,7 +92,7 @@ def setup_experiment(args):
         
         # set timeout default value
         if args.timeout is None:
-            timeout = 120
+            timeout = 180 # 3 minutes
         else:
             timeout = int(args.timeout)
 

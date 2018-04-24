@@ -22,3 +22,23 @@ def printWarning(str):
 
 def printHeader(str):
     print(f"{bcolors.HEADER}{str}{bcolors.ENDC}")
+
+def delete_last_lines(n):
+    CURSOR_UP_ONE = '\x1b[1A'
+    ERASE_LINE = '\x1b[2K'
+    for i in range(0, n):
+        print(CURSOR_UP_ONE, end="")
+    for i in range(0, n):
+        print(ERASE_LINE)
+    for i in range(0, n):
+        print(CURSOR_UP_ONE, end="")
+
+def toOrdinal(n):
+    if n == 1:
+        return "1st"
+    elif n == 2:
+        return "2nd"
+    elif n == 3:
+        return "3rd"
+    else: 
+        return f"{n}th"

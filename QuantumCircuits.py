@@ -2,8 +2,9 @@ from qiskit import QuantumProgram
 from qiskit import QuantumCircuit
 from qiskit import QuantumRegister
 from qiskit import ClassicalRegister
+from pyspin.spin import make_spin, Default
+from IPython.display import clear_output
 from qiskit import Result
-from halo import Halo
 import PrintUtils
 import QConfig
 import random
@@ -43,8 +44,18 @@ class QuantumPrograms:
             (a, b) = (b, a % b)
         return a
 
-    def factorize_N(self, N):
+    def factorize_N(self, N, numRetries=0):
         """Factorize N using Shor's algorithm."""
+        PrintUtils.printInfo(f"Factorizing N={N}...")
+        if numRetries > 0:
+            clear_output()
+            if numRetries > 1:
+                PrintUtils.delete_last_lines(4)
+            else:
+                PrintUtils.delete_last_lines(3)
+            PrintUtils.printInfo(f"Factorizing N={N}...")
+            PrintUtils.printWarning(f"Chose unlucky 'a' value, trying again with new 'a' value ({PrintUtils.toOrdinal(numRetries + 1)} try so far)...")
+        
         # Step 1: check if N is even; if so, simply divide by 2 and return the factors
         if N % 2 == 0:
             return [2, int(N/2)]
@@ -55,19 +66,20 @@ class QuantumPrograms:
         t = self.gcd(N, a)
         if t > 1:
             PrintUtils.printInfo(f"Found common period between N={N} and a={a}")
+            PrintUtils.printSuccess(f"Took {numRetries + 1} guesses for 'a' value.             ")
             return [t, int(N/t)]
         # Step 4: t=1, thus, N and a do not share common period. Find period using Shor's method.
         r = None
-        PrintUtils.printInfo("Using Shor's method to find period.")
-        with Halo(text="Working...", spinner="dots"):
-            r = self.find_period(a, N)
+        PrintUtils.printInfo("Using Shor's method to find period...")
+        r = self.find_period(a, N)
         factor1 = self.gcd((a**(r/2))+1, N)
-        if factor1 % N == 0:
-            PrintUtils.printWarning("Chose unlucky 'a' value, trying again with new 'a' value...")
-            return self.factorize_N(N)
+        if factor1 % N == 0 or factor1 == 1 or factor1 == N:
+            return self.factorize_N(N, numRetries + 1)
         factor2 = N/factor1
+        PrintUtils.printSuccess(f"Took {numRetries + 1} guesses for 'a' value.             ")
         return [int(factor1), int(factor2)]
     
+    @make_spin(Default, "Finding period using Shor's method...", "\r                                                    \n")
     def find_period(self, a, N):
         """
         Find the period of the modular exponentiation function, 
