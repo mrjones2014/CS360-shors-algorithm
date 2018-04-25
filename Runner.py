@@ -6,8 +6,10 @@ import random
 import sys
 
 def run(args):
+    return run_experiment(ExperimentUtils.setup_experiment(args))
+
+def run_experiment(experiment):
     print("")
-    experiment = ExperimentUtils.setup_experiment(args)
     program = experiment.qconf.program.strip()
     timeout = experiment.qconf.timeout
     if program == "exit":
