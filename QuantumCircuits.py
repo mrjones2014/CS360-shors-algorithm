@@ -54,9 +54,9 @@ class QuantumPrograms:
         if numRetries > 0:
             clear_output()
             if numRetries > 1:
-                PrintUtils.delete_last_lines(4)
+                PrintUtils.delete_last_lines(6)
             else:
-                PrintUtils.delete_last_lines(3)
+                PrintUtils.delete_last_lines(5)
             PrintUtils.printInfo(f"Factorizing N={N}...")
             PrintUtils.printWarning(f"Chose unlucky 'a' value, trying again with new 'a' value ({PrintUtils.toOrdinal(numRetries + 1)} try so far)...")
         
@@ -98,7 +98,7 @@ class QuantumPrograms:
         Returns a tuple containing the value of r and the number of iterations required to find r,
         (r, iterCount)
         """
-        self.create_period_finding_circuit()
+        self.create_modular_multiplication_circuit()
         iterCount = 0
         r = math.inf # initialize r to infinity 
         while not ((r%2 == 0) and (((a**(r/2))+1)%N != 0) and (r != 0) and (r != 8)):
@@ -117,7 +117,7 @@ class QuantumPrograms:
             # print(r)
         return r
 
-    def create_period_finding_circuit(self):
+    def create_modular_multiplication_circuit(self):
         qr = self.qp.create_quantum_register(QRegs.PERIOD, 5)
         cr = self.qp.create_classical_register(CRegs.PERIOD, 3)
         self.qp.create_circuit(Circuits.PERIOD, [qr], [cr])
@@ -160,4 +160,5 @@ class QuantumPrograms:
             circuit.u1(math.pi/4.0, qreg[2])
         circuit.h(qreg[2])
         circuit.measure(qreg[2], creg[2]) # store the result
+        # print(circuit.qasm()) # print QASM code
 
