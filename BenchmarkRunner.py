@@ -4,6 +4,7 @@ from QuantumCircuits import QuantumPrograms
 from qiskit import QuantumProgram
 from QConfig import QConfig
 from SignalUtils import tryExecuteWithTimeout
+from random import randint
 import time
 import sys
 
@@ -30,15 +31,19 @@ def run_benchmark(qp: QuantumPrograms, numberToFactor: int):
     qp.factorize_N(numberToFactor)
     return (time.perf_counter() - initial)
 
+def random_with_N_digits(n):
+    range_start = 10**(n-1)
+    range_end = (10**n)-1
+    return randint(range_start, range_end)
+
 if __name__ == "__main__":
     console = sys.stdout
-    sys.stdout = None
-    results = {
-        7389: [],
-        62797: [],
-        725167: [],
-        1783819: []
-    }
+    sys.stdout = None # stifle program output
+    num_inputs = 10
+    results = { 15: [] }
+
+    for i in range(1, num_inputs):
+        results[random_with_N_digits(i + 2)] = []
 
     num_trials = 10
     # num_trials = 3 # for debugging
@@ -57,8 +62,14 @@ if __name__ == "__main__":
     for i in results.keys():
         print(f"N={i}")
         count = 1
+        resultSum = 0
+        numNonZeroResults = 0
         for j in results[i]:
+            if j > 0:
+                numNonZeroResults += 1
+                resultSum += j
             print(f"    Trial#{count}: {j}")
+        results[i] = (resultSum / numNonZeroResults) # average of trials for each number
     try:
         sys.exit()
     except:
