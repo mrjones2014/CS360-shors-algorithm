@@ -4,6 +4,7 @@ from QuantumCircuits import QuantumPrograms
 from qiskit import QuantumProgram
 from QConfig import QConfig
 from SignalUtils import tryExecuteWithTimeout
+import CsvDataWriter
 from random import randint
 import time
 import sys
@@ -37,9 +38,8 @@ def random_with_N_digits(n):
     return randint(range_start, range_end)
 
 if __name__ == "__main__":
-    console = sys.stdout
-    sys.stdout = None # stifle program output
     num_inputs = 10
+    # num_inputs = 3 # for debugging
     results = { 15: [] }
 
     for i in range(1, num_inputs):
@@ -58,18 +58,8 @@ if __name__ == "__main__":
             tryExecuteWithTimeout(run_experiment, engine.qconf.timeout, f"Failed to factorize {i} within {engine.qconf.timeout} seconds.")
             if len(results[i]) <= j:
                 results[i].append(-1) # use value of -1 to indicate timeout failure
-    sys.stdout = console
-    for i in results.keys():
-        print(f"N={i}")
-        count = 1
-        resultSum = 0
-        numNonZeroResults = 0
-        for j in results[i]:
-            if j > 0:
-                numNonZeroResults += 1
-                resultSum += j
-            print(f"    Trial#{count}: {j}")
-        results[i] = (resultSum / numNonZeroResults) # average of trials for each number
+    CsvDataWriter.write_data(results)
+    print("Done benchmarking!")
     try:
         sys.exit()
     except:

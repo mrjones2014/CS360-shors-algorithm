@@ -9,24 +9,27 @@ def get_filename():
 def average(arr):
     """Takes an array of numbers and returns the average."""
     arrSum = 0
+    count = 0
     for i in arr:
-        arrSum += i
-    return (arrSum / len(arr))
+        if i > -1:
+            arrSum += i
+            count += 1
+    return (arrSum / count)
 
 def transform_data(data_dict: dict):
     """
     Takes the original data dict and converts it to a dict containing the fieldnames
     and an array of dict in a form that can be used by csv.DictWriter 
     (each element of array representing a CSV row), e.g.
-    {fieldnames: ["input", "trial1", ...], results: [{'input': 15, 'trial1': 4738, 'trial2': 4367, ..., 'average': 47248}]}
+    {fieldnames: ["input_len", "trial1", ...], results: [{'input': 15, 'trial1': 4738, 'trial2': 4367, ..., 'average': 47248}]}
     """
-    field_names = ["input"]
-    for i in range(1, len(data_dict[list(data_dict.keys())[0]]) + 1): # length of array of first value
+    field_names = ["input_len"]
+    for i in range(1, len(data_dict[list(data_dict.keys())[0]]) + 5): # length of array of first value
         field_names.append(f"trial{i}")
     field_names.append("average")
     results = []
     for i in data_dict.keys():
-        theDict = {"input": i, "average": average(data_dict[i])}
+        theDict = {"input_len": len(str(i)), "average": average(data_dict[i])}
         trialNum = 1
         for j in data_dict[i]:
             theDict[f"trial{trialNum}"] = j
