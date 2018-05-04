@@ -38,7 +38,7 @@ def random_with_N_digits(n):
     return randint(range_start, range_end)
 
 if __name__ == "__main__":
-    num_inputs = 10
+    num_inputs = 50
     # num_inputs = 3 # for debugging
     results = { 15: [] }
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
             tryExecuteWithTimeout(run_experiment, engine.qconf.timeout, f"Failed to factorize {i} within {engine.qconf.timeout} seconds.")
             if len(results[i]) <= j:
                 results[i].append(-1) # use value of -1 to indicate timeout failure
-    CsvDataWriter.write_data(results)
+        CsvDataWriter.write_data(results)
     print("Done benchmarking!")
     try:
         sys.exit()

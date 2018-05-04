@@ -10,11 +10,14 @@ def average(arr):
     """Takes an array of numbers and returns the average."""
     arrSum = 0
     count = 0
-    for i in arr:
-        if i > -1:
-            arrSum += i
-            count += 1
-    return (arrSum / count)
+    try:
+        for i in arr:
+            if i > -1:
+                arrSum += i
+                count += 1
+        return (arrSum / count)
+    except:
+        return -1
 
 def transform_data(data_dict: dict):
     """

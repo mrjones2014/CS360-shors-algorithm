@@ -84,7 +84,7 @@ class QuantumPrograms:
         PrintUtils.printSuccess(f"Took {numRetries + 1} guesses for 'a' value.             ")
         return [int(factor1), int(factor2)]
     
-    @make_spin(Default, "Finding period using Shor's method...", "\r                                                    \n")
+    # @make_spin(Default, "Finding period using Shor's method...", "\r                                                    \n")
     def find_period(self, a, N):
         """
         Find the period of the modular exponentiation function, 
