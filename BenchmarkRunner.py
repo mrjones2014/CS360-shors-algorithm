@@ -38,7 +38,7 @@ def random_with_N_digits(n):
     return randint(range_start, range_end)
 
 if __name__ == "__main__":
-    num_inputs = 50
+    num_inputs = 20
     # num_inputs = 3 # for debugging
     results = { 15: [] }
 
