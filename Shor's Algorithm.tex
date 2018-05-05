@@ -288,31 +288,31 @@
     \hypertarget{abstract}{%
 \subsection{Abstract}\label{abstract}}
 
-Although all integers have a unique breakdown of prime factors, finding
-those prime factors is thought to be a hard problem in computer science;
-in fact, most modern cyber security and encryption measures depend on
-the assumption that solving this problem for integers of a thousand or
-more digits is not feasibly possible (``Shor's Algorithm''). However, in
-1995, MIT professor Peter Shor presented a quantum algorithm (an
-algorithm that runs on a quantum computer) to solve the factoring
+~~~~Although all integers have a unique breakdown of prime factors,
+finding those prime factors is thought to be a hard problem in computer
+science; in fact, most modern cyber security and encryption measures
+depend on the assumption that solving this problem for integers of a
+thousand or more digits is not feasibly possible (``Shor's Algorithm'').
+However, in 1995, MIT professor Peter Shor presented a quantum algorithm
+(an algorithm that runs on a quantum computer) to solve the factoring
 problem in polynomial time. Shor's algorithm thus drastically changed
 the set of problems in computer science that can be considered feasible.
 
-\hypertarget{introduction}{%
+    \hypertarget{introduction}{%
 \subsection{Introduction}\label{introduction}}
 
-Shor's algorithm could potentially break nearly all modern cryptography.
-Most encryption schemes use a public \& private key paradigm; each
-device has two keys (public and private key), and the public keys are
-exchanged between devices. The keys are generated such that data
-encrypted using the public key can only be decrypted using the private
-key. Since the keys must be mathematically related (often based on
-arithmetic involving prime factors), the private key can theoretically
-be calculated from the public key. However, finding the prime factors of
-an integer of a thousand digits or more becomes infeasible on a
-classical computer; thus, calculating the private key from the public
-key could take hundreds of years on a classical computer, depending on
-the encryption scheme used.
+~~~~Shor's algorithm could potentially break nearly all modern
+cryptography. Most encryption schemes use a public \& private key
+paradigm; each device has two keys (public and private key), and the
+public keys are exchanged between devices. The keys are generated such
+that data encrypted using the public key can only be decrypted using the
+private key. Since the keys must be mathematically related (often based
+on arithmetic involving prime factors), the private key can
+theoretically be calculated from the public key. However, finding the
+prime factors of an integer of a thousand digits or more becomes
+infeasible on a classical computer; thus, calculating the private key
+from the public key could take hundreds of years on a classical
+computer, depending on the encryption scheme used.
 
 Shor's algorithm is a quantum algorithm for efficiently finding the
 prime factors of large integers, and thus calculating a private key from
@@ -323,14 +323,14 @@ effective post-quantum cryptography has been proposed, existing cyber
 security infrastructure (made up of classical computers) is not equipped
 to protect against attacks by a quantum computer.
 
-\hypertarget{implementation}{%
+    \hypertarget{implementation}{%
 \subsection{Implementation}\label{implementation}}
 
 \hypertarget{period-finding}{%
 \subsubsection{Period Finding}\label{period-finding}}
 
-It has been widely known by mathematicians and computer scientists since
-the 1970's that the factorization problem becomes easy if given a
+~~~~It has been widely known by mathematicians and computer scientists
+since the 1970's that the factorization problem becomes easy if given a
 ``period finding machine''; that is, a machine which can efficiently
 find a period of the modular exponentiation function (``Shor's
 Algorithm'').
@@ -353,11 +353,11 @@ This sequence gives rise to the pattern \(7^{x+4}=7^x\pmod{15}\), and
 thus \(r=4\) is the period of the modular exponentiation function
 \(7\pmod{15}\).
 
-\hypertarget{using-period-finding-machine-to-find-prime-factors}{%
+    \hypertarget{using-period-finding-machine-to-find-prime-factors}{%
 \subsubsection{Using Period Finding Machine to Find Prime
 Factors}\label{using-period-finding-machine-to-find-prime-factors}}
 
-Suppose a period finding machine is given that takes two co-prime
+~~~~Suppose a period finding machine is given that takes two co-prime
 integers \(a\) and \(N\) and outputs the period of \(a\mod N\). Then,
 the prime factors \(p_1, p_2\) of \(N\) can be found by the following
 procedure: 1. Choose a random integer \(a\) between \(2..N-1\). 2.
@@ -383,22 +383,22 @@ or vice versa. Therefore, \(p_1\) and \(p_2\) can now be computed by
 following table showing the calculated prime factors of \(N=15\) given
 different \(a\) values:
 
-~
-
+\begin{figure}
+\centering
 \includegraphics{table.png}
-
-\emph{Figure 1: Resultant factors for various N values.}
+\caption{Table}
+\end{figure}
 
 Notice that \(a=14\) is the only ``unlucky'' integer chosen (i.e.~it
 results in \(GCD(N, a^{r/2}+1)\) being a multiple of \(N\)); in general,
 it can be shown that selection of ``unlucky'' integers are rather
 infrequent (``Shor's Algorithm'').
 
-\hypertarget{using-a-quantum-computer-to-simulate-period-finding-machine}{%
+    \hypertarget{using-a-quantum-computer-to-simulate-period-finding-machine}{%
 \subsubsection{Using a Quantum Computer to Simulate Period Finding
 Machine}\label{using-a-quantum-computer-to-simulate-period-finding-machine}}
 
-The true power of Shor's algorithm lies in the ability of a quantum
+~~~~The true power of Shor's algorithm lies in the ability of a quantum
 computer to simulate such a ``period finding machine'' required to
 efficiently solve the factoring problem. By exploiting quantum
 parallelism and constructive interference, certain ``global properties''
@@ -444,12 +444,12 @@ random to estimate with a precision of \(1/N^2\) is enough to derive an
 exact value of \(r\) using rational approximation to estimate \(k/r\)
 (``Shor's Algorithm'').
 
-\hypertarget{reversible-classical-circuits}{%
+    \hypertarget{reversible-classical-circuits}{%
 \paragraph{Reversible Classical
 Circuits}\label{reversible-classical-circuits}}
 
-A quantum circuit which implements the modular multiplication operator
-is required in order to use the phase estimation gate. Quantum
+~~~~A quantum circuit which implements the modular multiplication
+operator is required in order to use the phase estimation gate. Quantum
 algorithms can call classical subroutines if the classical subroutine is
 first transformed into a \emph{reversible form}, i.e.~represented by a
 sequence of reversible logic gates (CNOT gate, Toffoli gate, etc). That
@@ -465,28 +465,30 @@ Consider a standard AND gate; it can be transformed into a reversible
 equivalent (R-AND) by adding an extra input wire \(d\) (so, inputs
 \(a, b, d\)), which is a dummy wire expecting a value of \(d=0\), and
 adding two extra output wires (so, outputs \(a, b, c\)) where \(c\) is
-the result of \(d\oplus (a\wedge b)\) (see figure 2). Thus, all inputs
+the result of \(d\oplus (a\wedge b)\) (see figure 1). Thus, all inputs
 of the R-AND can be derived from its outputs since
 \(c=d\oplus (a\wedge b)\) (``Shor's Algorithm'').
 
 \includegraphics{r-and-gate.png}
 
-\emph{Figure 2: Reversible AND (R-AND) gate. (Source: ``Shor's
-Algorithm''}) Similar logic can be applied to any gate with two inputs
-and one output; if gate F computes a boolean function \(c=F(a,b)\), then
-a reversible transformation (R-F gate) would map inputs \(a, b, d\) to
+\emph{Figure 1: Reversible AND (R-AND) gate. (Source: ``Shor's
+Algorithm''})
+
+ Similar logic can be applied to any gate with two inputs and one
+output; if gate F computes a boolean function \(c=F(a,b)\), then a
+reversible transformation (R-F gate) would map inputs \(a, b, d\) to
 outputs \(a, b, c\) where \(c=d\oplus F(a, b)\) (``Shor's Algorithm'').
-See figure 3.
+See figure 2.
 
 \includegraphics{r-f-gate.png}
 
-\emph{Figure 3: Reversible F (R-F) gate. (Source: ``Shor's Algorithm''})
+\emph{Figure 2: Reversible F (R-F) gate. (Source: ``Shor's Algorithm''})
 
-\hypertarget{quantum-circuit-for-modular-multiplication}{%
+    \hypertarget{quantum-circuit-for-modular-multiplication}{%
 \subsubsection{Quantum Circuit for Modular
 Multiplication}\label{quantum-circuit-for-modular-multiplication}}
 
-The modular exponentiation function can be derived from a series of
+~~~~The modular exponentiation function can be derived from a series of
 modular multiplication functions. Let the modular multiplication
 function be defined as \(f(x)=ax\pmod N\). If the integer results of
 \(f(x)\) are stored as \(n\)-bit strings, then \(f(x)\) can be
@@ -497,10 +499,10 @@ above (``Shor's Algorithm''). Since \(U_a\) is now composed completely
 of reversible classical circuits, it can be called as a classical
 subroutine from a quantum routine.
 
-\hypertarget{ibm-quantum-experience}{%
+    \hypertarget{ibm-quantum-experience}{%
 \subsubsection{IBM Quantum Experience}\label{ibm-quantum-experience}}
 
-IBM has a platform called the IBM Quantum Experience which allows
+~~~~IBM has a platform called the IBM Quantum Experience which allows
 curious computer scientists to experiment with quantum computing
 concepts. IBM quantum hardware runs
 \href{https://github.com/QISKit/openqasm}{OpenQASM} quantum assembly
@@ -571,13 +573,13 @@ of \(d\) (``Shor's Algorithm'').
 
 \includegraphics{shor-vs-classical.png}
 
-\emph{Figure 4: Shor's algorithm vs.~the general number sieve algorithm.
+\emph{Figure 3: Shor's algorithm vs.~the general number sieve algorithm.
 (Source: ``Shor's Algorithm'')}
 
-\hypertarget{extensions}{%
+    \hypertarget{extensions}{%
 \subsection{Extensions}\label{extensions}}
 
-To date, Shor's algorithm is the only known algorithm for prime
+~~~~To date, Shor's algorithm is the only known algorithm for prime
 factorization of large integers in polynomial time. On classical
 computers, the Sieve of Eratosthenes can be used to find prime factors
 of integers in \(O(nlg(lg(n)))\) time (\emph{Sorenson 1990}). Despite
@@ -587,7 +589,7 @@ complexity of
 \(O((lg\hspace{1pt}n)^2(lg\hspace{1pt}lg\hspace{1pt}n)(lg\hspace{1pt}lg\hspace{1pt}lg\hspace{1pt}n))\)
 (\emph{Beckman et al.~1996}).
 
-\hypertarget{conclusion}{%
+    \hypertarget{conclusion}{%
 \subsection{Conclusion}\label{conclusion}}
 
 ~~~~Shor's algorithm is perhaps the most radical example of how quantum
@@ -608,7 +610,7 @@ computing technology, and for this reason, its important to begin
 considering it as an inevitability which will come to fruition sooner
 rather than later.
 
-\hypertarget{works-cited}{%
+    \hypertarget{works-cited}{%
 \subsection{Works Cited}\label{works-cited}}
 
 Beckman, David, Amalavoyal N. Chari, Srikrishna Devabhaktuni, and John
@@ -641,7 +643,7 @@ http://{}research.cs.wisc.edu/techreports/1990/TR909.pdf.
     \hypertarget{github}{%
 \subsubsection{GitHub}\label{github}}
 
-https://github.com/mrjones2014/CS360-shors-algorithm
+~~ https://github.com/mrjones2014/CS360-shors-algorithm
 
     \hypertarget{quantumcircuits.py}{%
 \subsubsection{QuantumCircuits.py}\label{quantumcircuits.py}}
