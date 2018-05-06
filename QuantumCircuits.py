@@ -2,7 +2,6 @@ from qiskit import QuantumProgram
 from qiskit import QuantumCircuit
 from qiskit import QuantumRegister
 from qiskit import ClassicalRegister
-from pyspin.spin import make_spin, Default
 from IPython.display import clear_output
 from math import sqrt; from itertools import count, islice
 from qiskit import Result
@@ -84,7 +83,6 @@ class QuantumPrograms:
         PrintUtils.printSuccess(f"Took {numRetries + 1} guesses for 'a' value.             ")
         return [int(factor1), int(factor2)]
     
-    # @make_spin(Default, "Finding period using Shor's method...", "\r                                                    \n")
     def find_period(self, a, N):
         """
         Find the period of the modular exponentiation function, 
