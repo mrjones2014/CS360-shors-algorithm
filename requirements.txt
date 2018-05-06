@@ -1,5 +1,3 @@
 qiskit
-pyspin
 jupyter_contrib_nbextensions
-cite2c
 plotly
